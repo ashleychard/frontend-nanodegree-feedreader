@@ -132,7 +132,15 @@ $(function() {
 
        it(`has at least one .entry element within the .feed container`, function(){
         var feed = document.querySelector(".feed");
-        expect(feed.children.length > 0).toBe(true);
+        var feedChild = false;
+
+        for(var i=0; i < feed.children.length; i++){
+          if(feed.children.item(i).children[0].className.indexOf("entry") > -1){ 
+            feedChild = true;
+          };
+        };
+
+        expect(feedChild).toBe(true);
        });
 
     });
@@ -147,9 +155,10 @@ $(function() {
 
 
       beforeEach(function(done){
-        loadFeed(0);
-        initialContent = feed.innerText
-        loadFeed(1,done);
+        loadFeed(0, function () {
+          initialContent = feed.innerText;
+          loadFeed(1, done);
+        });
       });
 
       it(`loads a new feed`, function(){
